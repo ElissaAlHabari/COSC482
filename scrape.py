@@ -44,12 +44,16 @@ product_elements = driver.find_elements(By.CSS_SELECTOR, "div.dne-itemtile")
 for product in product_elements:
     try:
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        title_element = product.find_element(By.CSS_SELECTOR, "h3.dne-itemtile-title")
-        title = title_element.text.strip() if title_element else "N/A"
-
-        price_element = product.find_element(By.CSS_SELECTOR, "span.first")
-        price = price_element.text.strip() if price_element else "N/A"
+        try:
+         title_element = product.find_element(By.CSS_SELECTOR, "h3.dne-itemtile-title")
+         title = title_element.text.strip() if title_element else "N/A"
+        except:
+            title = "N/A"
+        try:
+         price_element = product.find_element(By.CSS_SELECTOR, "span.first")
+         price = price_element.text.strip() if price_element else "N/A"
+        except:
+            price ="N/A"
 
         try:
             original_price_element = product.find_element(By.CSS_SELECTOR, "span.itemtile-price-strikethrough")
@@ -62,10 +66,11 @@ for product in product_elements:
             shipping = shipping_element.text.strip() if shipping_element else "N/A"
         except:
             shipping = "N/A"
-
-        item_url_element = product.find_element(By.CSS_SELECTOR, "a")
-        item_url = item_url_element.get_attribute("href") if item_url_element else "N/A"
-
+        try:
+         item_url_element = product.find_element(By.CSS_SELECTOR, "a")
+         item_url = item_url_element.get_attribute("href") if item_url_element else "N/A"
+        except:
+            item_url = "N/A"
         data.append([timestamp, title, price, original_price, shipping, item_url])
     except Exception as e:
         print(f"Error extracting product: {e}")
